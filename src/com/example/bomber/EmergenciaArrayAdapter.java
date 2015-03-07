@@ -1,0 +1,64 @@
+package com.example.bomber;
+
+import java.util.List;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+public class EmergenciaArrayAdapter<E> extends ArrayAdapter<E> {
+
+	public EmergenciaArrayAdapter(Context context, List<E> objects) {
+		super(context, 0,objects);
+		
+	}
+	
+	@Override
+    public View getView(int position, View convertView, ViewGroup parent){
+
+        //Obteniendo una instancia del inflater
+        LayoutInflater inflater = (LayoutInflater)getContext()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        //Salvando la referencia del View de la fila
+        View listItemView = convertView;
+
+        //Comprobando si el View no existe
+        if (null == convertView) {
+        	//Si no existe, entonces inflarlo con two_line_list_item.xml
+            listItemView = inflater.inflate(
+                    android.R.layout.two_line_list_item,
+                    parent,
+                    false);
+        }
+
+        //Obteniendo instancias de los text views
+        TextView titulo = (TextView)listItemView.findViewById(android.R.id.text1);
+        TextView subtitulo = (TextView)listItemView.findViewById(android.R.id.text2);
+
+
+        //Obteniendo instancia de la Tarea en la posición actual
+        E item = getItem(position);
+
+        //Dividir la cadena en Nombre y Hora
+        String cadenaBruta;
+        String subCadenas [];
+        String delimitador = ":";
+        //int cat = ((DatosEmergencia) item).getCategoria();
+        cadenaBruta = item.toString();
+        subCadenas = cadenaBruta.split(delimitador,2);
+
+        titulo.setText(subCadenas[0]);
+        subtitulo.setText(subCadenas[1]);
+        //categoria.setImageResource(item.getCategoria());
+
+        //Devolver al ListView la fila creada
+        return listItemView;
+
+    }
+
+}
